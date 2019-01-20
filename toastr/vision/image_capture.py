@@ -31,9 +31,13 @@ cropping = False
 
 
 def die():
-    cv2.destroyAllWindows()
-    source.release()
-    sys.exit()
+    global source
+    try:
+        cv2.destroyAllWindows()
+        source.release()
+        sys.exit(0)
+    except:
+        sys.exit(0)
 
 
 def swap(x, y):
@@ -142,7 +146,9 @@ def crop_image(rects, img):
     return False
 
 
-if __name__ == "__main__":
+def capture():
+    global source, frame, global_frame, global_frame_with_text
+
     # Execute script from script dir
     if os.path.dirname(sys.argv[0]) != '':
         os.chdir(os.path.dirname(sys.argv[0]))
@@ -192,4 +198,7 @@ if __name__ == "__main__":
                 global_frame = None
                 continue
 
+
+if __name__ == "__main__":
+    capture()
     die()
