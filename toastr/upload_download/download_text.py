@@ -9,6 +9,7 @@ def download_text():
 def download_object(bucket_name, source_object_name, dest_filename, auth_file):
     timeout = 5
 
+    # Get the bucket containing the processed texts
     storage_client = storage.Client.from_service_account_json(auth_file)
     bucket = storage_client.get_bucket(bucket_name)
     object_found = False
@@ -20,6 +21,7 @@ def download_object(bucket_name, source_object_name, dest_filename, auth_file):
             print("Processed text downloader timed out. " + source_object_name + " not found in " + bucket_name)
             break
 
+        # Keep checking the bucket for the new processed text file and download it
         objects = bucket.list_blobs()
         for object in objects:
             print(object.name)
