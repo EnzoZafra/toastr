@@ -26,8 +26,8 @@ envitonments = {
 def parse(input_path: str, content_file_name="contents.out"):
     """Parse the environment to run in and file contents from an input text file."""
     with open(input_path) as input_txt, open(content_file_name, "w+") as contents:
-        environment = input_txt.readline()
-        contents.write("\n".join(input_txt.read()))
+        environment = input_txt.readline().strip()
+        contents.write(input_txt.read())
 
     return environment, content_file_name
 
