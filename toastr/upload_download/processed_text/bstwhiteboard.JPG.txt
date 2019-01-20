@@ -1,0 +1,10 @@
+te f binary Search Carr. L. r. x):
+>> while Ler
+>>>> Mid = L + (r-L)/2
+>>>> it arr Imid]= = X:
+>> return mid
+Jelif arr [m id] <X:
+>>>>>> L=mid +I
+>>>>else:
+>>>>>>r = mid-1
+>> return -1
