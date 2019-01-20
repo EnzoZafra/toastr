@@ -1,3 +1,3 @@
-FROM apline
-COPY quickstart.sh
+FROM alpine
+COPY quickstart.sh /
 CMD ["/quickstart.sh"]
