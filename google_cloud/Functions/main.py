@@ -19,6 +19,7 @@ from google.cloud import pubsub_v1
 from google.cloud import storage
 from google.cloud import translate
 from google.cloud import vision
+from google.cloud.vision import types
 
 vision_client = vision.ImageAnnotatorClient()
 translate_client = translate.Client()
@@ -30,18 +31,14 @@ project_id = os.environ['GCP_PROJECT']
 with open('config.json') as f:
     data = f.read()
     config = json.loads(data)
-    # [END functions_ocr_setup]
 
-# [START message_validatation_helper]
 def validate_message(message, param):
     var = message.get(param)
     if not var:
         raise ValueError('{} is not provided. Make sure you have \
                           property {} in the request'.format(param, param))
     return var
-# [END message_validatation_helper]
 
-# [START functions_ocr_save]
 def save_result(event, context):
     if event.get('data'):
         message_data = base64.b64decode(event['data']).decode('utf-8')
@@ -92,6 +89,26 @@ def detect_document_text(bucket, filename):
     text_detection_response = vision_client.document_text_detection(image=image)
 
     annotations = text_detection_response.text_annotations
+
+    for page in text_detection_response.full_text_annotation.pages:
+        for block in page.blocks:
+            print('\nBlock confidence: {}\n'.format(block.confidence))
+
+            for paragraph in block.paragraphs:
+                print('Paragraph confidence: {}'.format(
+                    paragraph.confidence))
+
+                for word in paragraph.words:
+                    word_text = ''.join([
+                        symbol.text for symbol in word.symbols
+                    ])
+                    print('Word text: {} (confidence: {})'.format(
+                        word_text, word.confidence))
+
+                    for symbol in word.symbols:
+                        print('\tSymbol: {} (confidence: {})'.format(
+                            symbol.text, symbol.confidence))
+
     if len(annotations) > 0:
         text = annotations[0].description
     else:
@@ -108,6 +125,7 @@ def detect_document_text(bucket, filename):
     message_data = json.dumps(message).encode('utf-8')
     topic_path = publisher.topic_path(project_id, topic_name)
     future = publisher.publish(topic_path, data=message_data)
+
     futures.append(future)
 
     for future in futures:
