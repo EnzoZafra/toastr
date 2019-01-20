@@ -164,7 +164,7 @@ if __name__ == "__main__":
         cv2.putText(new_frame, "No Rectangles Found", (0, 25), FONT, 1.0, TEXT_COLOR, LINE_WIDTH, LINE_TYPE)
 
     print("Cropping rectangles...")
-    if (crop_image(rects, new_frame) is True):
+    if (crop_image(rects, frame) is True):
         die()
 
     print("No cropped images selected, displaying original image...")
