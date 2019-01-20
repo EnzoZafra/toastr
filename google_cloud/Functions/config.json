@@ -1,4 +1,4 @@
 {
-  "RESULT_TOPIC": "enzo_result",
-  "RESULT_BUCKET": "enzo_text"
+  "RESULT_TOPIC": "toastr_result",
+  "RESULT_BUCKET": "toastr_processedtext"
 }
