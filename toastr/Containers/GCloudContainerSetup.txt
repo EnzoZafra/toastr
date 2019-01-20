@@ -1,0 +1,14 @@
+Source: https://cloud.google.com/cloud-build/docs/quickstart-docker
+
+Make file executable: 
+chmod +x quickstart.sh
+
+Build using Dockerfile:
+gcloud builds submit --tag gcr.io/[PROJECT_ID]/quickstart-image .
+
+Build using a cloudbuild.yaml file:
+gcloud builds submit --config cloudbuild.yaml .
+
+Run Docker Image locally:
+docker run gcr.io/[PROJECT_ID]/quickstart-image
+ 
