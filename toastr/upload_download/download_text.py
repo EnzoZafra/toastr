@@ -3,9 +3,6 @@ import time
 
 from google.cloud import storage
 
-def download_text():
-    os.system("gsutil -m cp -R gs://toastr_processedtext/* ./processed_text")
-
 def download_object(bucket_name, source_object_name, dest_filename, auth_file):
     timeout = 5
 
@@ -36,5 +33,4 @@ def download_object(bucket_name, source_object_name, dest_filename, auth_file):
                 break
 
 if __name__ == "__main__":
-    # download_text()
     download_object("toastr_processedtext", "bstwhiteboard.JPG.txt", "bstwhiteboard.txt", "auth.json")
