@@ -35,9 +35,8 @@ def die():
     try:
         cv2.destroyAllWindows()
         source.release()
-        sys.exit(0)
     except:
-        sys.exit(0)
+        print("")
 
 
 def swap(x, y):
@@ -136,7 +135,6 @@ def crop_image(rects, img):
                     cv2.imwrite(IMAGE_FILENAME, cropped_frame)
                     cv2.destroyAllWindows()
                     return True
-                    break
                 # Close and don't save by pressing 'n'
                 elif (key & 0xFF == ord("n")):
                     cv2.destroyWindow(cropped_window_name)
@@ -149,7 +147,6 @@ def crop_image(rects, img):
 def capture():
     global source, frame, global_frame, global_frame_with_text
 
-    # Execute script from script dir
     if os.path.dirname(sys.argv[0]) != '':
         os.chdir(os.path.dirname(sys.argv[0]))
 
@@ -172,6 +169,7 @@ def capture():
     print("Cropping rectangles...")
     if (crop_image(rects, frame) is True):
         die()
+        return 0
 
     print("No cropped images selected, displaying original image...")
     cv2.putText(new_frame, "Use Mouse to Select Rect or", (0, 50), FONT, 1.0, TEXT_COLOR, LINE_WIDTH, LINE_TYPE)
@@ -187,12 +185,14 @@ def capture():
             key = cv2.waitKey(1)
             if (key & 0xFF == ord("q")):
                 die()
+                return 1
         else:
             cv2.imshow("Manually Cropped Image", global_frame_with_text)
             key = cv2.waitKey(1)
             if (key & 0xFF == ord("y")):
                 cv2.imwrite(IMAGE_FILENAME, global_frame)
                 die()
+                return 0
             elif (key & 0xFF == ord("n")):
                 cv2.destroyWindow("Manually Cropped Image")
                 global_frame = None
